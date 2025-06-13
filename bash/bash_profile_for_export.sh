@@ -37,7 +37,7 @@ function show_files () {
     if test $n_files -gt 0
     then 
     echo '---- FILES -----------------------------------------------------------'
-    ls -lhpXF --color=always | grep '^-' --color=never
+    ls -lhpF --color=always | grep '^-' --color=never
     fi
 }
 
@@ -84,9 +84,33 @@ echo $my_time
 }
 
 function do_a_commit(){
+    local c_msg=""
+    if [ $# -gt 0 ]
+    then
+        c_msg+="$*"
+    else
+        c_msg+="interim checkin "
+    fi
+
+    c_msg+=" "$(cool_time)
+
     git add -A;
-    git commit -m"interim checkin "$(cool_time);
+    git commit -m "${c_msg}"
     git pull;
     git push;
 }
+
+function try_it(){
+    
+    local output_text=""
+    if [ $# -gt 0 ]
+    then 
+        output_text+="$*"
+    else
+        output_text+="interim checkin"
+    fi
+    output_text+=" "$(cool_time)
+    echo $output_text
+}
+
 
